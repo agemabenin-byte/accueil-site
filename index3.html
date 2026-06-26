@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Bienvenue sur SuccesBonheur</title>
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial,Helvetica,sans-serif;
+}
+
+body{
+
+background:linear-gradient(-45deg,#0f172a,#1d4ed8,#2563eb,#0ea5e9);
+background-size:400% 400%;
+animation:bg 12s infinite alternate;
+min-height:100vh;
+display:flex;
+flex-direction:column;
+color:white;
+
+}
+
+@keyframes bg{
+
+0%{background-position:left;}
+100%{background-position:right;}
+
+}
+
+header{
+
+padding:35px;
+text-align:center;
+
+}
+
+header h1{
+
+font-size:40px;
+animation:fadeDown 1s;
+
+}
+
+header p{
+
+margin-top:15px;
+font-size:18px;
+opacity:.9;
+
+}
+
+.container{
+
+width:95%;
+max-width:1200px;
+margin:auto;
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+gap:25px;
+padding:20px;
+flex:1;
+
+}
+
+.card{
+
+background:rgba(255,255,255,.12);
+backdrop-filter:blur(12px);
+border-radius:18px;
+padding:30px;
+box-shadow:0 15px 40px rgba(0,0,0,.25);
+transition:.5s;
+animation:zoom .8s;
+position:relative;
+overflow:hidden;
+
+}
+
+.card:hover{
+
+transform:translateY(-10px) scale(1.03);
+
+}
+
+.card::before{
+
+content:"";
+position:absolute;
+width:160%;
+height:160%;
+background:linear-gradient(transparent,rgba(255,255,255,.25),transparent);
+transform:rotate(45deg);
+top:-120%;
+left:-120%;
+transition:1s;
+
+}
+
+.card:hover::before{
+
+top:100%;
+left:100%;
+
+}
+
+.card h2{
+
+margin-bottom:18px;
+font-size:26px;
+
+}
+
+.card p{
+
+line-height:1.8;
+margin-bottom:30px;
+
+}
+
+button{
+
+padding:14px 28px;
+font-size:17px;
+border:none;
+border-radius:40px;
+cursor:pointer;
+background:white;
+color:#1565c0;
+font-weight:bold;
+transition:.4s;
+
+}
+
+button:hover{
+
+transform:scale(1.08);
+background:#ffd54f;
+color:black;
+
+}
+
+footer{
+
+background:rgba(0,0,0,.35);
+padding:35px;
+text-align:center;
+font-size:17px;
+
+}
+
+footer h3{
+
+margin-bottom:15px;
+font-size:28px;
+
+}
+
+footer p{
+
+line-height:1.8;
+
+}
+
+.contact{
+
+margin-top:15px;
+font-size:18px;
+font-weight:bold;
+
+}
+
+@keyframes zoom{
+
+from{
+opacity:0;
+transform:scale(.7);
+}
+
+to{
+opacity:1;
+transform:scale(1);
+}
+
+}
+
+@keyframes fadeDown{
+
+from{
+opacity:0;
+transform:translateY(-50px);
+}
+
+to{
+opacity:1;
+transform:translateY(0);
+}
+
+}
+
+.float{
+
+animation:float 4s ease-in-out infinite;
+
+}
+
+@keyframes float{
+
+0%,100%{
+transform:translateY(0px);
+}
+
+50%{
+transform:translateY(-8px);
+}
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<header>
+
+<h1>🌍 Bienvenue sur SuccesBonheur</h1>
+
+<p>Découvrez tous nos services numériques en un seul endroit.</p>
+
+</header>
+
+<div class="container">
+
+<div class="card float">
+
+<h2>🛒 Boutique</h2>
+
+<p>
+Découvrez notre boutique en ligne et profitez d'une sélection de produits et services proposés par SuccesBonheur.
+</p>
+
+<button onclick="go('https://boutique.succesbonheur.online')">
+Visiter la boutique
+</button>
+
+</div>
+
+<div class="card float">
+
+<h2>📱 SB App</h2>
+
+<p>
+Publiez gratuitement vos annonces, développez votre visibilité et trouvez rapidement des clients grâce à SB App.
+</p>
+
+<button onclick="go('https://app.succesbonheur.online')">
+Ouvrir SB App
+</button>
+
+</div>
+
+<div class="card float">
+
+<h2>📚 Manuels & PDF</h2>
+
+<p>
+Accédez à une bibliothèque complète de manuels techniques, guides pratiques et documents PDF utiles.
+</p>
+
+<button onclick="go('https://ManuelsetPDF.succesbonheur.online')">
+Accéder aux PDF
+</button>
+
+</div>
+
+<div class="card float">
+
+<h2>🤖 Bio IA</h2>
+
+<p>
+Découvrez notre espace dédié aux informations intelligentes, à l'innovation et aux solutions numériques modernes.
+</p>
+
+<button onclick="go('https://bio.succesbonheur.online')">
+Découvrir
+</button>
+
+</div>
+
+</div>
+
+<footer>
+
+<h3>🚀 SB App & AGEMA</h3>
+
+<p>
+
+SB App est une plateforme innovante conçue pour permettre à chacun de vendre, acheter et développer ses activités facilement.
+Créée avec passion par <strong>AGEMA</strong>, elle représente une vision ambitieuse de la technologie au service du développement numérique en Afrique.
+
+<br><br>
+
+AGEMA met son expertise au service des particuliers, entreprises et professionnels afin de proposer des solutions informatiques modernes, fiables et accessibles.
+
+</p>
+
+<div class="contact">
+
+📞 +229 01 40 80 44 95<br>
+📞 +229 01 96 47 91 81<br>
+📞 +229 01 95 61 86 90
+
+<br><br>
+
+✉ agemabenin@gmail.com
+
+</div>
+
+<br>
+
+<p>
+
+© 2026 AGEMA - Tous droits réservés.
+
+</p>
+
+</footer>
+
+<script>
+
+function go(url){
+
+document.body.style.opacity="0";
+
+setTimeout(()=>{
+
+window.location.href=url;
+
+},500);
+
+}
+
+window.onload=function(){
+
+document.body.style.opacity="1";
+
+}
+
+</script>
+
+</body>
+</html>
