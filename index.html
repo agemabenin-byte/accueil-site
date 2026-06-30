@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Succès Bonheur - Portail Officiel</title>
+<style>
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html,body{height:100%;width:100%;overflow:hidden;background:#0f172a;}
+  #designFrame{
+    position:fixed;
+    top:0;left:0;
+    width:100%;
+    height:100%;
+    border:none;
+    display:block;
+  }
+  #loadingScreen{
+    position:fixed;
+    top:0;left:0;width:100%;height:100%;
+    background:#0f172a;
+    color:#fff;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-family:Arial,Helvetica,sans-serif;
+    font-size:18px;
+    z-index:9999;
+    transition:opacity .4s ease;
+  }
+</style>
+</head>
+<body>
+
+<div id="loadingScreen">Chargement...</div>
+<iframe id="designFrame" title="Succès Bonheur"></iframe>
+
+<script>
+/*
+  =========================================================
+  Sélection automatique du design selon le mois en cours
+  =========================================================
+  - Ce fichier ne contient AUCUN contenu de design en dur.
+  - Au chargement, il va simplement chercher (fetch) le
+    fichier "indexN.html" correspondant au mois en cours
+    (N = 1 pour janvier ... 12 pour décembre), situé dans
+    le MÊME dossier que ce fichier index.html.
+  - Le contenu récupéré est injecté tel quel dans un iframe
+    (srcdoc), ce qui isole totalement son CSS/JS de celui
+    de index.html (aucun conflit possible).
+  - Vous pouvez donc modifier librement index1.html à
+    index12.html (contenu, design, liens, etc.) chaque année,
+    sans jamais avoir besoin de toucher à index.html.
+  - Si le fichier du mois en cours n'existe pas encore
+    (ex: index7.html pas encore créé), le script essaie
+    automatiquement les fichiers des mois précédents, puis
+    suivants, jusqu'à en trouver un qui existe, afin que la
+    page affiche toujours quelque chose de cohérent.
+*/
+
+const currentMonth = new Date().getMonth() + 1; // 1 à 12
+
+// Construit un ordre de recherche : mois courant, puis mois précédents,
+// puis mois suivants, pour maximiser les chances de trouver un fichier existant.
+function buildSearchOrder(month) {
+  const order = [month];
+  for (let offset = 1; offset <= 11; offset++) {
+    const before = ((month - 1 - offset + 12) % 12) + 1;
+    const after = ((month - 1 + offset) % 12) + 1;
+    if (!order.includes(before)) order.push(before);
+    if (!order.includes(after)) order.push(after);
+  }
+  return order;
+}
+
+async function fetchDesign(month) {
+  const url = `index${month}.html`;
+  const response = await fetch(url, { cache: "no-store" });
+  if (!response.ok) {
+    throw new Error(`Fichier ${url} introuvable (HTTP ${response.status})`);
+  }
+  return await response.text();
+}
+
+async function loadDesign() {
+  const frame = document.getElementById("designFrame");
+  const loading = document.getElementById("loadingScreen");
+  const searchOrder = buildSearchOrder(currentMonth);
+
+  for (const month of searchOrder) {
+    try {
+      const html = await fetchDesign(month);
+      frame.srcdoc = html;
+      frame.addEventListener("load", () => {
+        loading.style.opacity = "0";
+        setTimeout(() => { loading.style.display = "none"; }, 400);
+      }, { once: true });
+      return;
+    } catch (err) {
+      // Ce mois n'existe pas encore, on essaie le suivant dans l'ordre de recherche
+      continue;
+    }
+  }
+
+  // Aucun fichier index1.html à index12.html n'a pu être chargé
+  loading.innerHTML = "Aucun design disponible pour le moment.";
+}
+
+window.addEventListener("DOMContentLoaded", loadDesign);
+</script>
+
+</body>
+</html>
