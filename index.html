@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Succès Bonheur - Portail Officiel</title>
+<style>
+  html,body{margin:0;padding:0;height:100%;width:100%;background:#0f172a;}
+</style>
+</head>
+<body>
+<script>
+/*
+  =========================================================
+  Sélection automatique du design selon le mois en cours
+  =========================================================
+  - Aucun contenu de design en dur dans ce fichier.
+  - Au chargement, on récupère (fetch) "indexN.html"
+    (N = mois en cours, 1 à 12) dans le même dossier que
+    ce fichier, puis on remplace le contenu de LA PAGE
+    ACTUELLE directement (document.write), sans iframe :
+    un seul chargement réseau, pas de double rendu, donc
+    quasi instantané.
+  - Vous pouvez modifier index1.html à index12.html chaque
+    année sans jamais toucher à index.html.
+  - Si le fichier du mois en cours n'existe pas encore, on
+    essaie automatiquement le mois précédent, puis suivant,
+    etc., jusqu'à en trouver un qui existe.
+*/
+
+const currentMonth = new Date().getMonth() + 1; // 1 à 12
+
+function buildSearchOrder(month) {
+  const order = [month];
+  for (let offset = 1; offset <= 11; offset++) {
+    const before = ((month - 1 - offset + 12) % 12) + 1;
+    const after = ((month - 1 + offset) % 12) + 1;
+    if (!order.includes(before)) order.push(before);
+    if (!order.includes(after)) order.push(after);
+  }
+  return order;
+}
+
+async function fetchDesign(month) {
+  const url = `index${month}.html`;
+  const response = await fetch(url, { cache: "no-store" });
+  if (!response.ok) {
+    throw new Error(`Fichier ${url} introuvable (HTTP ${response.status})`);
+  }
+  return await response.text();
+}
+
+async function loadDesign() {
+  const searchOrder = buildSearchOrder(currentMonth);
+
+  for (const month of searchOrder) {
+    try {
+      const html = await fetchDesign(month);
+      document.open();
+      document.write(html);
+      document.close();
+      return;
+    } catch (err) {
+      continue;
+    }
+  }
+
+  document.open();
+  document.write("<!DOCTYPE html><html><body style='background:#0f172a;color:#fff;font-family:sans-serif;display:flex;align-items:center;justify-content:center;height:100vh;margin:0;'><h1>Aucun design disponible</h1></body></html>");
+  document.close();
+}
+
+loadDesign();
+</script>
+</body>
+</html>
