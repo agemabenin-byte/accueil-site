@@ -1,0 +1,1755 @@
+<div class="agema-systeme-container">
+
+  <style>
+
+    :root {
+
+      --rouge-alerte: #ff0000;
+
+      --fond-noir: #000000;
+
+      --bleu-agema: #007bff; /* Bleu pour l'icône */
+
+      --fond-gris-clair: #f4f4f4;
+
+    }
+
+
+
+    .agema-systeme-container {
+
+      font-family: 'Segoe UI', Arial, sans-serif;
+
+      margin: 0;
+
+      padding: 0;
+
+      background-color: #ffffff;
+
+      text-align: center;
+
+    }
+
+
+
+    /* Bandeau Alerte Haut */
+
+    .top-alert-bar {
+
+      background-color: var(--fond-noir);
+
+      color: white;
+
+      padding: 10px;
+
+      font-weight: bold;
+
+      font-size: 0.9rem;
+
+      border-radius: 0 0 15px 15px;
+
+    }
+
+
+
+    .alert-tag {
+
+      background-color: var(--rouge-alerte);
+
+      padding: 2px 10px;
+
+      border-radius: 5px;
+
+      display: inline-block;
+
+    }
+
+
+
+    /* Header Profil */
+
+    .profile-header {
+
+      display: flex;
+
+      justify-content: center;
+
+      align-items: center;
+
+      gap: 10px;
+
+      padding: 10px 0;
+
+    }
+
+
+
+    .agema-logo-icon {
+
+      width: 40px;
+
+      height: 40px;
+
+      background-color: var(--bleu-agema); /* Icône en bleu */
+
+      border-radius: 8px;
+
+      display: flex;
+
+      justify-content: center;
+
+      align-items: center;
+
+      color: white;
+
+      font-weight: bold;
+
+      font-size: 0.7rem;
+
+    }
+
+
+
+    .company-name {
+
+      font-size: 1.2rem;
+
+      font-weight: bold;
+
+      color: #000;
+
+    }
+
+
+
+    /* Titre Principal réduit et sans espace */
+
+    .main-headline {
+
+      font-size: 1.1rem; /* Taille très réduite */
+
+      font-weight: 700;
+
+      color: #000;
+
+      line-height: 1.3;
+
+      margin: 0 auto;
+
+      max-width: 300px; /* Force le passage sur 2 ou 3 lignes */
+
+      padding: 5px 0;
+
+    }
+
+
+
+    /* Stats Apprenants */
+
+    .stats-bar {
+
+      color: #666;
+
+      font-size: 0.9rem;
+
+      margin-bottom: 15px;
+
+    }
+
+
+
+    /* Compte à Rebours */
+
+    .timer-section {
+
+      padding: 10px 0;
+
+    }
+
+
+
+    .timer-title {
+
+      font-size: 1rem;
+
+      font-weight: bold;
+
+      margin-bottom: 10px;
+
+    }
+
+
+
+    .countdown-timer {
+
+      display: flex;
+
+      justify-content: center;
+
+      gap: 8px;
+
+    }
+
+
+
+    .timer-box {
+
+      background-color: var(--fond-gris-clair);
+
+      width: 70px;
+
+      padding: 10px 5px;
+
+      border-radius: 10px;
+
+    }
+
+
+
+    .timer-num {
+
+      font-size: 1.5rem;
+
+      font-weight: bold;
+
+      display: block;
+
+    }
+
+
+
+    .timer-label {
+
+      font-size: 0.6rem;
+
+      color: #888;
+
+      text-transform: uppercase;
+
+    }
+
+
+
+    /* Ajustement Ordinateur */
+
+    @media (min-width: 1024px) {
+
+      .main-headline { 
+
+        font-size: 1.3rem; 
+
+        max-width: 400px;
+
+      }
+
+      .timer-box { width: 90px; }
+
+    }
+
+  </style>
+
+
+
+  <div class="top-alert-bar">
+
+    ⚠️ Dernière chance : <div class="alert-tag">Offre disponible jusqu'à ce jour</div>
+
+  </div>
+
+
+
+  <div class="profile-header">
+
+    <div class="agema-logo-icon">AGB</div>
+
+    <div class="company-name">AGEMA BÉNIN</div>
+
+  </div>
+
+
+
+  <h1 class="main-headline">
+
+    Maîtrisez les métiers du futur — Les documents exclusifs pour devenir un expert technique.
+
+  </h1>
+
+
+
+  <div class="stats-bar">
+
+    👤 510 Apprenants | 🎓 Formation
+
+  </div>
+
+
+
+  <div class="timer-section">
+
+    <div class="timer-title">L'offre se termine dans :</div>
+
+    <div class="countdown-timer">
+
+      <div class="timer-box"><span class="timer-num" id="days">00</span><span class="timer-label">Jours</span></div>
+
+      <div class="timer-box"><span class="timer-num" id="hours">00</span><span class="timer-label">Heures</span></div>
+
+      <div class="timer-box"><span class="timer-num" id="minutes">00</span><span class="timer-label">Min</span></div>
+
+      <div class="timer-box"><span class="timer-num" id="seconds">00</span><span class="timer-label">Sec</span></div>
+
+    </div>
+
+  </div>
+
+
+
+  <script>
+
+    function updateTimer() {
+
+      const cycleDays = 4;
+
+      const cycleMs = cycleDays * 24 * 60 * 60 * 1000;
+
+      const now = new Date().getTime();
+
+      const referenceDate = new Date("2026-02-23T00:00:00").getTime();
+
+      const elapsed = now - referenceDate;
+
+      const remaining = cycleMs - (elapsed % cycleMs);
+
+
+
+      const d = Math.floor(remaining / (1000 * 60 * 60 * 24));
+
+      const h = Math.floor((remaining % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+
+      const m = Math.floor((remaining % (1000 * 60 * 60)) / (1000 * 60));
+
+      const s = Math.floor((remaining % (1000 * 60)) / 1000);
+
+
+
+      document.getElementById("days").innerText = d.toString().padStart(2, '0');
+
+      document.getElementById("hours").innerText = h.toString().padStart(2, '0');
+
+      document.getElementById("minutes").innerText = m.toString().padStart(2, '0');
+
+      document.getElementById("seconds").innerText = s.toString().padStart(2, '0');
+
+    }
+
+    setInterval(updateTimer, 1000);
+
+    updateTimer();
+
+  </script>
+
+</div>
+<!-- ------------------------------------------------------ -->
+
+<div class="agema-intro">
+  <style>
+    .agema-intro {
+      background-color: #1a1a1a; /* Fond sombre pro */
+      padding: 30px 15px;
+      text-align: center;
+      width: 100%;
+      box-sizing: border-box;
+      border-bottom: 1px solid rgba(188, 19, 254, 0.3); /* Rappel discret du violet */
+    }
+
+    .agema-intro h2 {
+      color: #ffffff;
+      font-size: 1.4rem;
+      margin: 0 0 10px 0;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      text-transform: capitalize;
+    }
+
+    .agema-intro p {
+      color: #cccccc;
+      font-size: 1rem;
+      line-height: 1.6;
+      max-width: 700px;
+      margin: 0 auto;
+      font-style: italic;
+    }
+
+    .highlight-gold {
+      color: #ffd700; /* Touche dorée pour la valeur */
+      font-weight: bold;
+    }
+  </style>
+
+  <h2>ACCÉDEZ À L'EXPERTISE TECHNIQUE</h2>
+  <p>
+    Propulsez votre carrière avec nos <span class="highlight-gold">guides complets et supports de formation</span>. 
+    Des documents exclusifs, conçus pour une maîtrise totale de votre métier.
+  </p>
+</div>
+<!-- ------------------------------------------------------ -->
+
+<div class="agema-product-block">
+  <style>
+    :root {
+      --rouge-vif: #ff0000;
+      --gold: #ffd700;
+      --vert-succes: #2ecc71;
+      --fond-sombre: #1a1a1a;
+      --texte-gris: #e0e0e0;
+      /* Couleurs spécifiques demandées */
+      --rouge-fixe: #FF2c2c; 
+      --jaune-promo: #ffde21;
+    }
+
+    .agema-product-block {
+      margin: 20px auto;
+      padding: 40px 0;
+      width: 95%;
+      max-width: 1000px;
+      background-color: var(--fond-sombre);
+      font-family: 'Segoe UI', Arial, sans-serif;
+      color: #ffffff;
+      box-sizing: border-box;
+      border-radius: 15px;
+    }
+
+    .product-content {
+      width: 100%;
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 0 20px;
+      box-sizing: border-box;
+    }
+
+    .module-title {
+      text-align: center;
+      margin-bottom: 25px;
+    }
+
+    .module-title h3 {
+      color: #ffffff;
+      text-transform: uppercase;
+      font-size: 1.6rem;
+      margin: 0;
+      letter-spacing: 1.5px;
+      font-weight: bold;
+    }
+
+    .module-image {
+      width: 100%;
+      margin-bottom: 30px;
+      overflow: hidden;
+      border-radius: 12px;
+      position: relative; /* Pour le badge */
+    }
+
+    /* Badge de réduction */
+    .promo-badge {
+      position: absolute;
+      top: 15px;
+      right: 15px;
+      background-color: var(--rouge-fixe);
+      color: white;
+      padding: 8px 15px;
+      border-radius: 5px;
+      font-weight: bold;
+      font-size: 1.2rem;
+      z-index: 10;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.5);
+    }
+
+    .module-image img {
+      width: 100%;
+      height: auto;
+      display: block;
+      transition: transform 0.5s ease;
+    }
+    
+    .module-image:hover img {
+        transform: scale(1.02);
+    }
+
+    .features-grid {
+      list-style: none;
+      padding: 0;
+      margin: 30px 0;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px 15px;
+    }
+
+    .features-grid li {
+      color: var(--texte-gris);
+      font-size: 0.9rem;
+      display: flex;
+      align-items: center;
+      line-height: 1.3;
+    }
+
+    .features-grid li::before {
+      content: "✓";
+      display: inline-flex;
+      justify-content: center;
+      align-items: center;
+      min-width: 20px;
+      max-width: 20px;
+      height: 20px;
+      background-color: var(--vert-succes);
+      color: white;
+      font-size: 11px;
+      font-weight: bold;
+      border-radius: 50%;
+      margin-right: 12px;
+      flex-shrink: 0;
+    }
+
+    /* Affichage des prix */
+    .price-display {
+      text-align: center;
+      margin: 40px 0;
+    }
+
+    .old-price-container {
+      display: block;
+      color: var(--rouge-fixe);
+      font-size: 1.3rem;
+      margin-bottom: 8px;
+      font-weight: bold;
+    }
+
+    .old-price-container span {
+      text-decoration: line-through;
+    }
+
+    .new-price-container {
+      display: block;
+      color: var(--jaune-promo);
+      font-size: 2.5rem;
+      font-weight: 900;
+      text-transform: uppercase;
+      text-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    }
+
+    .btn-buy {
+      display: block;
+      background-color: var(--rouge-vif);
+      color: white !important;
+      text-decoration: none;
+      text-align: center;
+      padding: 22px;
+      font-weight: bold;
+      border-radius: 12px;
+      text-transform: uppercase;
+      font-size: 1.3rem;
+      max-width: 450px;
+      margin: 0 auto;
+      animation: pulse-simple 2s infinite;
+      transition: all 0.3s ease;
+      box-shadow: 0 5px 15px rgba(255, 0, 0, 0.3);
+    }
+
+    @keyframes pulse-simple {
+      0% { transform: scale(1); box-shadow: 0 5px 15px rgba(255, 0, 0, 0.3); }
+      70% { transform: scale(1.05); box-shadow: 0 10px 25px rgba(255, 0, 0, 0.5); }
+      100% { transform: scale(1); box-shadow: 0 5px 15px rgba(255, 0, 0, 0.3); }
+    }
+
+    @media (max-width: 480px) {
+        .features-grid { gap: 12px 8px; }
+        .features-grid li { font-size: 0.8rem; }
+        .new-price-container { font-size: 2rem; }
+    }
+  </style>
+
+  <div class="product-content">
+    <div class="module-title">
+      <h3>Réseau Informatique</h3>
+    </div>
+
+    <div class="module-image">
+      <div class="promo-badge">-67%</div>
+      <img src="https://i.postimg.cc/LXmdzqCH/file-0000000009c472439131f0a0e159a764-(1).png" alt="Réseau Informatique AGEMA">
+    </div>
+
+    <ul class="features-grid">
+      <li>Interconnexion PC</li>
+      <li>Cyber & Wifi Zone</li>
+      <li>Serveur Windows</li>
+      <li>Sécurité données</li>
+      <li>Partage Imprimante</li>
+      <li>Pilotage à distance</li>
+      <li>Config Routeur</li>
+      <li>Répéteur & Point d'accès</li>
+      <li>Droits d'accès</li>
+      <li>Gestion Users</li>
+      <li>Horaires d'accès</li>
+      <li>Lecteurs Réseau</li>
+      <li>Quotas Stockage</li>
+      <li>Filtres fichiers</li>
+      <li>Config par GPO</li>
+      <li>Maintenance</li>
+    </ul>
+
+    <div class="price-display">
+      <div class="old-price-container">Prix réel : <span>30 000 FCFA</span></div>
+      <div class="new-price-container">Prix promo : 10 000 FCFA</div>
+    </div>
+
+    <a href="https://www.succesbonheur.online/paiement" class="btn-buy">Acheter le Document</a>
+  </div>
+</div>
+<!-- ------------------------------------------------------ -->
+
+<div class="agema-product-block">
+  <style>
+    :root {
+      --bleu-action: #007bff;
+      --gold: #ffd700;
+      --vert-succes: #2ecc71;
+      --fond-sombre: #1a1a1a;
+      --texte-gris: #e0e0e0;
+      /* Vos couleurs spécifiques */
+      --rouge-fixe: #FF2c2c; 
+      --jaune-promo: #ffde21;
+    }
+
+    /* Conteneur principal */
+    .agema-product-block {
+      margin: 20px auto;
+      padding: 40px 0;
+      width: 95%;
+      max-width: 1000px;
+      background-color: var(--fond-sombre);
+      font-family: 'Segoe UI', Arial, sans-serif;
+      color: #ffffff;
+      box-sizing: border-box;
+      border-radius: 15px;
+    }
+
+    .product-content {
+      width: 100%;
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 0 20px;
+      box-sizing: border-box;
+    }
+
+    /* Titre en gras */
+    .module-title {
+      text-align: center;
+      margin-bottom: 25px;
+    }
+
+    .module-title h3 {
+      color: #ffffff;
+      text-transform: uppercase;
+      font-size: 1.6rem;
+      margin: 0;
+      letter-spacing: 1.5px;
+      font-weight: 900; 
+    }
+
+    /* Image avec arrondi et Badge */
+    .module-image {
+      width: 100%;
+      margin-bottom: 30px;
+      overflow: hidden;
+      border-radius: 12px;
+      position: relative;
+    }
+
+    .promo-badge {
+      position: absolute;
+      top: 15px;
+      right: 15px;
+      background-color: var(--rouge-fixe);
+      color: white;
+      padding: 8px 15px;
+      border-radius: 5px;
+      font-weight: bold;
+      font-size: 1.2rem;
+      z-index: 10;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.5);
+    }
+
+    .module-image img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    /* Grille d'énumération */
+    .features-grid {
+      list-style: none;
+      padding: 0;
+      margin: 30px 0;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 15px 20px;
+    }
+
+    .features-grid li {
+      color: var(--texte-gris);
+      font-size: 0.85rem;
+      display: flex;
+      align-items: center;
+      line-height: 1.2;
+    }
+
+    .features-grid li::before {
+      content: "✓";
+      display: inline-flex;
+      justify-content: center;
+      align-items: center;
+      min-width: 18px;
+      max-width: 18px;
+      height: 18px;
+      background-color: var(--vert-succes);
+      color: white;
+      font-size: 10px;
+      font-weight: bold;
+      border-radius: 50%;
+      margin-right: 12px;
+      flex-shrink: 0;
+    }
+
+    /* Affichage des nouveaux prix */
+    .price-display {
+      text-align: center;
+      margin: 35px 0;
+    }
+
+    .old-price-container {
+      display: block;
+      color: var(--rouge-fixe);
+      font-size: 1.3rem;
+      margin-bottom: 8px;
+      font-weight: bold;
+    }
+
+    .old-price-container span {
+      text-decoration: line-through;
+    }
+
+    .new-price-container {
+      display: block;
+      color: var(--jaune-promo);
+      font-size: 2.5rem;
+      font-weight: 900;
+      text-transform: uppercase;
+      text-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    }
+
+    /* Bouton bleu pulsant */
+    .btn-buy-blue {
+      display: block;
+      background-color: var(--bleu-action);
+      color: white !important;
+      text-decoration: none;
+      text-align: center;
+      padding: 22px;
+      font-weight: bold;
+      border-radius: 12px;
+      text-transform: uppercase;
+      font-size: 1.3rem;
+      max-width: 450px;
+      margin: 0 auto;
+      animation: pulse-blue 2s infinite;
+      transition: all 0.3s ease;
+    }
+
+    @keyframes pulse-blue {
+      0% { transform: scale(1); box-shadow: 0 5px 15px rgba(0, 123, 255, 0.3); }
+      70% { transform: scale(1.05); box-shadow: 0 10px 25px rgba(0, 123, 255, 0.5); }
+      100% { transform: scale(1); box-shadow: 0 5px 15px rgba(0, 123, 255, 0.3); }
+    }
+
+    @media (max-width: 500px) {
+        .features-grid { gap: 12px 10px; }
+        .features-grid li { font-size: 0.75rem; }
+        .new-price-container { font-size: 2rem; }
+    }
+  </style>
+
+  <div class="product-content">
+    <div class="module-title">
+      <h3>Maintenance Informatique</h3>
+    </div>
+
+    <div class="module-image">
+      <div class="promo-badge">-57%</div>
+      <img src="https://i.postimg.cc/k42HNxQc/file-000000009c607243bca9a58d02b926e9.png" alt="Maintenance Informatique AGEMA">
+    </div>
+
+    <ul class="features-grid">
+      <li>Réparation PC</li>
+      <li>Installation Windows</li>
+      <li>Offices & Activation</li>
+      <li>Suppression Password</li>
+      <li>Activation Antivirus</li>
+      <li>Changement Écran</li>
+      <li>Changement Clavier</li>
+      <li>Disque dur & SSD</li>
+      <li>Gestion RAM</li>
+      <li>Récupération Données</li>
+      <li>Système Linux</li>
+      <li>CMD & PowerShell</li>
+      <li>Config Système</li>
+      <li>Installation Pilotes</li>
+      <li>Configurations BIOS</li>
+      <li>Optimisation Finale</li>
+    </ul>
+
+    <div class="price-display">
+      <div class="old-price-container">Prix réel : <span>35 000 FCFA</span></div>
+      <div class="new-price-container">Prix promo : 15 000 FCFA</div>
+    </div>
+
+    <a href="https://link.feexpay.me/8cJaXPtu/ManuelMI" class="btn-buy-blue">Acheter le Document</a>
+  </div>
+</div>
+
+<!-- ------------------------------------------------------ -->
+
+<div class="agema-product-block-graphisme">
+  <style>
+    :root {
+      --bouton-graphisme: #e67e22; 
+      --titre-graphisme: #00d2ff; 
+      --gold: #ffd700;
+      --vert-succes: #2ecc71;
+      --fond-graphisme: #1e1e26; 
+      --texte-gris: #e0e0e0;
+      /* Vos couleurs spécifiques */
+      --rouge-fixe: #FF2c2c; 
+      --jaune-promo: #ffde21;
+    }
+
+    .agema-product-block-graphisme {
+      margin: 20px auto;
+      padding: 40px 0;
+      width: 95%;
+      max-width: 1000px;
+      background-color: var(--fond-graphisme);
+      font-family: 'Segoe UI', Arial, sans-serif;
+      color: #ffffff;
+      box-sizing: border-box;
+      border-radius: 15px;
+    }
+
+    .product-content {
+      width: 100%;
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 0 20px;
+      box-sizing: border-box;
+    }
+
+    .module-title {
+      text-align: center;
+      margin-bottom: 25px;
+    }
+
+    .module-title h3 {
+      color: var(--titre-graphisme);
+      text-transform: uppercase;
+      font-size: 1.6rem;
+      margin: 0;
+      letter-spacing: 1.5px;
+      font-weight: 900; 
+    }
+
+    .module-image {
+      width: 100%;
+      margin-bottom: 30px;
+      overflow: hidden;
+      border-radius: 12px;
+      position: relative;
+    }
+
+    /* Badge de réduction */
+    .promo-badge {
+      position: absolute;
+      top: 15px;
+      right: 15px;
+      background-color: var(--rouge-fixe);
+      color: white;
+      padding: 8px 15px;
+      border-radius: 5px;
+      font-weight: bold;
+      font-size: 1.2rem;
+      z-index: 10;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.5);
+    }
+
+    .module-image img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    .features-grid {
+      list-style: none;
+      padding: 0;
+      margin: 30px 0;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 15px 20px;
+    }
+
+    .features-grid li {
+      color: var(--texte-gris);
+      font-size: 0.85rem;
+      display: flex;
+      align-items: center;
+      line-height: 1.2;
+    }
+
+    .features-grid li::before {
+      content: "✓";
+      display: inline-flex;
+      justify-content: center;
+      align-items: center;
+      min-width: 18px;
+      max-width: 18px;
+      height: 18px;
+      background-color: var(--vert-succes);
+      color: white;
+      font-size: 10px;
+      font-weight: bold;
+      border-radius: 50%;
+      margin-right: 12px;
+      flex-shrink: 0;
+    }
+
+    /* Affichage des prix */
+    .price-display {
+      text-align: center;
+      margin: 35px 0;
+    }
+
+    .old-price-container {
+      display: block;
+      color: var(--rouge-fixe);
+      font-size: 1.3rem;
+      margin-bottom: 8px;
+      font-weight: bold;
+    }
+
+    .old-price-container span {
+      text-decoration: line-through;
+    }
+
+    .new-price-container {
+      display: block;
+      color: var(--jaune-promo);
+      font-size: 2.5rem;
+      font-weight: 900;
+      text-transform: uppercase;
+      text-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    }
+
+    .btn-buy-orange {
+      display: block;
+      background-color: var(--bouton-graphisme);
+      color: white !important;
+      text-decoration: none;
+      text-align: center;
+      padding: 22px;
+      font-weight: bold;
+      border-radius: 12px;
+      text-transform: uppercase;
+      font-size: 1.3rem;
+      max-width: 450px;
+      margin: 0 auto;
+      animation: pulse-orange 2s infinite;
+      transition: all 0.3s ease;
+    }
+
+    @keyframes pulse-orange {
+      0% { transform: scale(1); box-shadow: 0 5px 15px rgba(230, 126, 34, 0.3); }
+      70% { transform: scale(1.05); box-shadow: 0 10px 25px rgba(230, 126, 34, 0.5); }
+      100% { transform: scale(1); box-shadow: 0 5px 15px rgba(230, 126, 34, 0.3); }
+    }
+
+    @media (max-width: 500px) {
+        .features-grid {
+            gap: 12px 10px;
+            grid-template-columns: 1fr 1fr;
+        }
+        .features-grid li { font-size: 0.75rem; }
+        .new-price-container { font-size: 2rem; }
+    }
+  </style>
+
+  <div class="product-content">
+    <div class="module-title">
+      <h3>Graphisme Professionnel</h3>
+    </div>
+
+    <div class="module-image">
+      <div class="promo-badge">-57%</div>
+      <img src="https://i.postimg.cc/mrmD1Gjw/file-00000000074c71fd92da5d00a4aa64aa.png" alt="Graphisme AGEMA">
+    </div>
+
+    <ul class="features-grid">
+      <li>Adobe Photoshop</li>
+      <li>Adobe InDesign</li>
+      <li>Canva Pro</li>
+      <li>Affiches & Flyers</li>
+      <li>Calendriers</li>
+      <li>Cartes d'invitation</li>
+      <li>Dépliants</li>
+      <li>Prospectus</li>
+      <li>Mise en page pro</li>
+      <li>Identité visuelle</li>
+      <li>Logo & Branding</li>
+      <li>Retouche avancée</li>
+      <li>Théorie couleur</li>
+      <li>Typographie</li>
+      <li>Exportation Print</li>
+      <li>Fonctions AVANCÉES</li>
+    </ul>
+
+    <div class="price-display">
+      <div class="old-price-container">Prix réel : <span>35 000 FCFA</span></div>
+      <div class="new-price-container">Prix promo : 15 000 FCFA</div>
+    </div>
+
+    <a href="https://www.succesbonheur.online/paiement" class="btn-buy-orange">Acheter le Document</a>
+  </div>
+</div>
+<!-- ------------------------------------------------------ -->
+
+<div class="agema-product-block-gsm">
+  <style>
+    :root {
+      --bouton-gsm: #d63031; 
+      --titre-gsm: #f1c40f; 
+      --gold: #ffd700;
+      --vert-succes: #2ecc71;
+      --fond-global: #1a1a1a;
+      --texte-gris: #e0e0e0;
+      /* Vos couleurs spécifiques */
+      --rouge-fixe: #FF2c2c; 
+      --jaune-promo: #ffde21;
+    }
+
+    .agema-product-block-gsm {
+      margin: 20px auto;
+      padding: 40px 0;
+      width: 95%;
+      max-width: 1000px;
+      background-color: var(--fond-global);
+      font-family: 'Segoe UI', Arial, sans-serif;
+      color: #ffffff;
+      box-sizing: border-box;
+      border-radius: 15px;
+    }
+
+    .product-content {
+      width: 100%;
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 0 20px;
+      box-sizing: border-box;
+    }
+
+    .module-title {
+      text-align: center;
+      margin-bottom: 25px;
+    }
+
+    .module-title h3 {
+      color: var(--titre-gsm);
+      text-transform: uppercase;
+      font-size: 1.6rem;
+      margin: 0;
+      letter-spacing: 1.5px;
+      font-weight: 900; 
+    }
+
+    .module-image {
+      width: 100%;
+      margin-bottom: 30px;
+      overflow: hidden;
+      border-radius: 12px;
+      position: relative;
+    }
+
+    /* Badge de réduction */
+    .promo-badge {
+      position: absolute;
+      top: 15px;
+      right: 15px;
+      background-color: var(--rouge-fixe);
+      color: white;
+      padding: 8px 15px;
+      border-radius: 5px;
+      font-weight: bold;
+      font-size: 1.2rem;
+      z-index: 10;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.5);
+    }
+
+    .module-image img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    .features-grid {
+      list-style: none;
+      padding: 0;
+      margin: 30px 0;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 15px 20px;
+    }
+
+    .features-grid li {
+      color: var(--texte-gris);
+      font-size: 0.9rem;
+      display: flex;
+      align-items: center;
+      line-height: 1.3;
+    }
+
+    .features-grid li::before {
+      content: "✓";
+      display: inline-flex;
+      justify-content: center;
+      align-items: center;
+      min-width: 18px;
+      max-width: 18px;
+      height: 18px;
+      background-color: var(--vert-succes);
+      color: white;
+      font-size: 10px;
+      font-weight: bold;
+      border-radius: 50%;
+      margin-right: 12px;
+      flex-shrink: 0;
+    }
+
+    /* Affichage des nouveaux prix */
+    .price-display {
+      text-align: center;
+      margin: 35px 0;
+    }
+
+    .old-price-container {
+      display: block;
+      color: var(--rouge-fixe);
+      font-size: 1.3rem;
+      margin-bottom: 8px;
+      font-weight: bold;
+    }
+
+    .old-price-container span {
+      text-decoration: line-through;
+    }
+
+    .new-price-container {
+      display: block;
+      color: var(--jaune-promo);
+      font-size: 2.5rem;
+      font-weight: 900;
+      text-transform: uppercase;
+      text-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    }
+
+    .btn-buy-gsm {
+      display: block;
+      background-color: var(--bouton-gsm);
+      color: white !important;
+      text-decoration: none;
+      text-align: center;
+      padding: 20px;
+      font-weight: bold;
+      border-radius: 12px;
+      text-transform: uppercase;
+      font-size: 1.2rem;
+      max-width: 450px;
+      margin: 0 auto;
+      animation: pulse-gsm 2s infinite;
+      transition: all 0.3s ease;
+    }
+
+    @keyframes pulse-gsm {
+      0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(214, 48, 49, 0.4); }
+      70% { transform: scale(1.05); box-shadow: 0 0 0 15px rgba(214, 48, 49, 0); }
+      100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(214, 48, 49, 0); }
+    }
+
+    @media (min-width: 1024px) {
+      .features-grid li { font-size: 1.15rem; }
+      .features-grid li::before { min-width: 22px; max-width: 22px; height: 22px; font-size: 12px; }
+      .module-title h3 { font-size: 2rem; }
+      .new-price-container { font-size: 3.5rem; }
+      .btn-buy-gsm { font-size: 1.5rem; padding: 25px; max-width: 550px; }
+    }
+
+    @media (max-width: 500px) {
+        .features-grid { grid-template-columns: 1fr 1fr; }
+        .new-price-container { font-size: 2rem; }
+    }
+  </style>
+
+  <div class="product-content">
+    <div class="module-title">
+      <h3>Maintenance GSM</h3>
+    </div>
+
+    <div class="module-image">
+      <div class="promo-badge">-57%</div>
+      <img src="https://i.postimg.cc/pTPMM0FB/file-00000000820c71f8842290d52770c2ce.png" alt="Maintenance GSM AGEMA">
+    </div>
+
+    <ul class="features-grid">
+      <li>Réparation Téléphones</li>
+      <li>Diagnostic Panne</li>
+      <li>Changement d'Écran</li>
+      <li>Déblocage Réseau</li>
+      <li>Flashage & Système</li>
+      <li>Micro-Soudure</li>
+      <li>Remplacement Batterie</li>
+      <li>Connecteurs de charge</li>
+      <li>Récupération Données</li>
+      <li>Maintenance Android</li>
+      <li>Maintenance iPhone</li>
+      <li>Nettoyage Interne</li>
+      <li>Protection Écran</li>
+      <li>Accessoires Mobiles</li>
+      <li>Test de Performance</li>
+      <li>Expertise Matérielle</li>
+    </ul>
+
+    <div class="price-display">
+      <div class="old-price-container">Prix réel : <span>60 000 FCFA</span></div>
+      <div class="new-price-container">Prix promo : 20 000 FCFA</div>
+    </div>
+
+    <a href="https://link.feexpay.me/Gmm8Rs0o/ManuelGSM" class="btn-buy-gsm">Acheter le Document</a>
+  </div>
+</div>
+
+<!-- ------------------------------------------------------ -->
+
+<div class="agema-product-block-informatique">
+  <style>
+    :root {
+      --bouton-info: #27ae60;
+      --titre-info: #00d2ff; 
+      --gold: #ffd700;
+      --vert-succes: #2ecc71;
+      --fond-global: #1a1a1a;
+      --texte-gris: #e0e0e0;
+      /* Couleurs spécifiques demandées */
+      --rouge-fixe: #FF2c2c; 
+      --jaune-promo: #ffde21;
+    }
+
+    .agema-product-block-informatique {
+      margin: 20px auto;
+      padding: 40px 0;
+      width: 95%;
+      max-width: 1000px;
+      background-color: var(--fond-global);
+      font-family: 'Segoe UI', Arial, sans-serif;
+      color: #ffffff;
+      box-sizing: border-box;
+      border-radius: 15px;
+    }
+
+    .product-content {
+      width: 100%;
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 0 20px;
+      box-sizing: border-box;
+    }
+
+    .module-title {
+      text-align: center;
+      margin-bottom: 25px;
+    }
+
+    .module-title h3 {
+      color: var(--titre-info);
+      text-transform: uppercase;
+      font-size: 1.6rem;
+      margin: 0;
+      letter-spacing: 1.5px;
+      font-weight: 900; 
+    }
+
+    .module-image {
+      width: 100%;
+      margin-bottom: 30px;
+      overflow: hidden;
+      border-radius: 12px;
+      position: relative;
+    }
+
+    .promo-badge {
+      position: absolute;
+      top: 15px;
+      right: 15px;
+      background-color: var(--rouge-fixe);
+      color: white;
+      padding: 8px 15px;
+      border-radius: 5px;
+      font-weight: bold;
+      font-size: 1.2rem;
+      z-index: 10;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.5);
+    }
+
+    .module-image img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    .features-grid {
+      list-style: none;
+      padding: 0;
+      margin: 30px 0;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 15px 20px;
+    }
+
+    .features-grid li {
+      color: var(--texte-gris);
+      font-size: 0.9rem;
+      display: flex;
+      align-items: center;
+      line-height: 1.3;
+    }
+
+    .features-grid li::before {
+      content: "✓";
+      display: inline-flex;
+      justify-content: center;
+      align-items: center;
+      min-width: 18px;
+      max-width: 18px;
+      height: 18px;
+      background-color: var(--vert-succes);
+      color: white;
+      font-size: 10px;
+      font-weight: bold;
+      border-radius: 50%;
+      margin-right: 12px;
+      flex-shrink: 0;
+    }
+
+    .price-display {
+      text-align: center;
+      margin: 35px 0;
+    }
+
+    .old-price-container {
+      display: block;
+      color: var(--rouge-fixe);
+      font-size: 1.3rem;
+      margin-bottom: 8px;
+      font-weight: bold;
+    }
+
+    .old-price-container span {
+      text-decoration: line-through;
+    }
+
+    .new-price-container {
+      display: block;
+      color: var(--jaune-promo);
+      font-size: 2.5rem;
+      font-weight: 900;
+      text-transform: uppercase;
+    }
+
+    .btn-buy-info {
+      display: block;
+      background-color: var(--bouton-info);
+      color: white !important;
+      text-decoration: none;
+      text-align: center;
+      padding: 20px;
+      font-weight: bold;
+      border-radius: 12px;
+      text-transform: uppercase;
+      font-size: 1.2rem;
+      max-width: 450px;
+      margin: 0 auto;
+      animation: pulse-info 2s infinite;
+      transition: all 0.3s ease;
+    }
+
+    @keyframes pulse-info {
+      0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(39, 174, 96, 0.4); }
+      70% { transform: scale(1.05); box-shadow: 0 0 0 15px rgba(39, 174, 96, 0); }
+      100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(39, 174, 96, 0); }
+    }
+
+    @media (min-width: 1024px) {
+      .new-price-container { font-size: 3.5rem; }
+      .btn-buy-info { font-size: 1.5rem; padding: 25px; max-width: 550px; }
+    }
+
+    @media (max-width: 500px) {
+        .new-price-container { font-size: 2rem; }
+    }
+  </style>
+
+  <div class="product-content">
+    <div class="module-title">
+      <h3>Formation en Informatique</h3>
+    </div>
+
+    <div class="module-image">
+      <div class="promo-badge">-67%</div>
+      <img src="https://i.postimg.cc/4x5pfyK5/file-000000006ac871fdb33fef992085eb05.png" alt="Formation Informatique AGEMA">
+    </div>
+
+    <ul class="features-grid">
+      <li>Bureautique complète</li>
+      <li>Maîtrise de Windows</li>
+      <li>Microsoft Word Pro</li>
+      <li>Excel Avancé</li>
+      <li>PowerPoint Design</li>
+      <li>Saisie Rapide</li>
+      <li>Maintenance Soft</li>
+      <li>Sécurité Web</li>
+      <li>Navigation Internet</li>
+      <li>Gestion d'Emails</li>
+      <li>Stockage Cloud</li>
+      <li>Installation Logiciels</li>
+      <li>Optimisation Système</li>
+      <li>Réseaux Sociaux</li>
+      <li>Outils de Travail</li>
+    </ul>
+
+    <div class="price-display">
+      <div class="old-price-container">Prix réel : <span>30 000 FCFA</span></div>
+      <div class="new-price-container">Prix promo : 10 000 FCFA</div>
+    </div>
+
+    <a href="https://link.feexpay.me/6LykcSsM/ManuelFI" class="btn-buy-info">Acheter le Document</a>
+  </div>
+</div>
+<!-- ------------------------------------------------------ -->
+
+<div class="agema-nb-section">
+  <style>
+    .agema-nb-section {
+      background-color: #ffffff; /* Fond blanc pur */
+      padding: 30px 20px;
+      margin: 20px auto;
+      width: 95%;
+      max-width: 1000px;
+      border-radius: 15px;
+      border: 1px solid #e0e0e0;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+      font-family: 'Segoe UI', Arial, sans-serif;
+      box-sizing: border-box;
+    }
+
+    .nb-container {
+      display: flex;
+      align-items: flex-start;
+      gap: 15px;
+    }
+
+    .nb-badge {
+      background-color: #ff0000; /* Rouge pour attirer l'attention */
+      color: white;
+      font-weight: 900;
+      padding: 5px 12px;
+      border-radius: 5px;
+      font-size: 0.9rem;
+      text-transform: uppercase;
+      display: inline-block;
+      margin-bottom: 10px;
+    }
+
+    .nb-content {
+      flex: 1;
+      text-align: left;
+    }
+
+    .nb-intro-text {
+      color: #000000;
+      font-weight: bold;
+      font-size: 1.05rem;
+      margin-bottom: 15px;
+      display: block;
+    }
+
+    .nb-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .nb-list li {
+      color: #333333;
+      font-size: 1rem;
+      line-height: 1.6;
+      margin-bottom: 10px;
+      padding-left: 5px;
+    }
+
+    .nb-footer {
+      margin-top: 15px;
+      padding-top: 15px;
+      border-top: 1px dashed #cccccc;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: #27ae60; /* Vert pour le support/disponibilité */
+      font-weight: 600;
+      font-size: 0.95rem;
+    }
+
+    /* Ajustement Ordinateur */
+    @media (min-width: 1024px) {
+      .nb-list li, .nb-intro-text {
+        font-size: 1.15rem;
+      }
+      .agema-nb-section {
+        padding: 40px;
+      }
+    }
+  </style>
+
+  <div class="nb-container">
+    <div class="nb-content">
+      <span class="nb-badge">NB</span>
+      <span class="nb-intro-text">Lorsque vous achetez un document :</span>
+      
+      <ul class="nb-list">
+        <li>👉 Vous êtes automatiquement intégré à notre forum VIP d'assistance Gratuite</li>
+        <li>👉 Vous bénéficiez en ligne d'une formation pratique identique à celle dispensée en présentiel.</li>
+        <li>👉 Chaque Guide est conçu pour vous transmettre un savoir-faire immédiat, complet, Pratique.</li>
+      </ul>
+      
+      <div class="nb-footer">
+        💬 Nous sommes disponibles pour répondre à toutes vos questions après l'achat.
+      </div>
+    </div>
+  </div>
+</div>
+<!-- ------------------------------------------------------ -->
+
+<div class="agema-contact-footer">
+  <style>
+    :root {
+      --vert-whatsapp: #25d366;
+      --bleu-appel: #007bff;
+      --rouge-gmail: #ea4335;
+      --fond-agema: #1a1a1a;
+    }
+
+    .agema-contact-footer {
+      background-color: var(--fond-agema);
+      padding: 60px 20px;
+      text-align: center;
+      color: white;
+      font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      position: relative;
+    }
+
+    .contact-headline {
+      font-size: 1.1rem;
+      font-weight: 600;
+      margin-bottom: 40px;
+      line-height: 1.6;
+    }
+
+    .contact-headline span {
+      color: #ffd700;
+      font-weight: 800;
+    }
+
+    .icons-container {
+      display: flex;
+      justify-content: center;
+      gap: 30px;
+    }
+
+    .main-icon-btn {
+      width: 65px;
+      height: 65px;
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+      border: none;
+      transition: transform 0.3s;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.4);
+    }
+
+    .main-icon-btn:hover { transform: translateY(-5px); }
+
+    .main-icon-btn svg, .main-icon-btn span {
+      width: 32px;
+      height: 32px;
+      fill: white;
+      font-size: 30px;
+    }
+
+    .bg-wa { background-color: var(--vert-whatsapp); }
+    .bg-call { background-color: var(--bleu-appel); }
+    .bg-mail { background-color: var(--rouge-gmail); }
+
+    .contact-popup {
+      display: none;
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: #ffffff;
+      border-radius: 20px;
+      width: 90%;
+      max-width: 320px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.8);
+      z-index: 9999;
+      overflow: hidden;
+      animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    @keyframes popIn {
+      from { opacity: 0; transform: translate(-50%, -40%); }
+      to { opacity: 1; transform: translate(-50%, -50%); }
+    }
+
+    .popup-overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.7);
+      z-index: 9998;
+    }
+
+    .popup-header {
+      background: #f8f9fa;
+      padding: 15px;
+      font-size: 0.8rem;
+      color: #333;
+      font-weight: bold;
+      text-transform: uppercase;
+      border-bottom: 1px solid #eee;
+    }
+
+    .popup-link {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      padding: 18px;
+      text-decoration: none;
+      color: #1a1a1a;
+      font-weight: 700;
+      border-bottom: 1px solid #f1f1f1;
+      transition: background 0.2s;
+    }
+
+    .popup-link:hover { background: #f0f7ff; }
+
+    .net-dot { width: 12px; height: 12px; border-radius: 50%; }
+    .mtn { background: #ffcc00; }
+    .celtiis { background: #007bff; }
+    .moov { background: #e31e24; }
+
+    .close-popup {
+      display: block;
+      width: 100%;
+      padding: 12px;
+      background: #eee;
+      border: none;
+      font-weight: bold;
+      cursor: pointer;
+      color: #666;
+    }
+
+    @media (min-width: 1024px) {
+      .main-icon-btn { width: 75px; height: 75px; }
+      .contact-headline { font-size: 1.4rem; }
+    }
+  </style>
+
+  <p class="contact-headline">
+    Pour plus d'informations sur les services d'<span>AGEMA BÉNIN</span>,<br>
+    cliquez sur les icônes pour nous joindre.
+  </p>
+
+  <div class="icons-container">
+    <div class="icon-wrapper">
+      <button class="main-icon-btn bg-wa" onclick="openAgemaPopup('wa-menu')">
+        <svg viewBox="0 0 448 512"><path d="M380.9 97.1C339 55.1 283.2 32 223.9 32c-122.4 0-222 99.6-222 222 0 39.1 10.2 77.3 29.6 111L0 480l117.7-30.9c32.7 19.1 70.1 29.3 108.5 29.3h.1c122.4 0 222-99.6 222-222 0-59.3-23-115.1-65-157.1zM223.9 446.2c-33.1 0-65.6-8.9-93.9-25.7l-6.7-4-69.8 18.3 18.7-68.1-4.4-7c-18.5-29.4-28.2-63.3-28.2-98.2 0-101.7 82.8-184.5 184.6-184.5 49.3 0 95.6 19.2 130.4 54.1 34.8 34.9 56.2 81.2 56.1 130.5 0 101.8-82.7 184.6-184.5 184.6zm101.2-138.2c-5.5-2.8-32.8-16.2-37.9-18-5.1-1.9-8.8-2.8-12.5 2.8-3.7 5.6-14.3 18-17.6 21.8-3.2 3.7-6.5 4.2-12 1.4-5.5-2.8-23.2-8.5-44.2-27.1-16.4-14.6-27.4-32.7-30.6-38.2-3.2-5.5-.3-8.5 2.4-11.2 2.5-2.6 5.5-6.5 8.3-9.7 2.8-3.3 3.7-5.5 5.5-9.3 1.8-3.7.9-6.9-.5-9.7-1.4-2.8-12.5-30.1-17.1-41.2-4.5-10.8-9.1-9.3-12.5-9.5-3.2-.2-6.9-.2-10.6-.2-3.7 0-9.7 1.4-14.8 6.9-5.1 5.6-19.4 19-19.4 46.3 0 27.3 19.9 53.7 22.6 57.4 2.8 3.7 39.1 59.7 94.8 83.8 13.2 5.7 23.5 9.2 31.6 11.8 13.3 4.2 25.4 3.6 34.9 2.2 10.6-1.5 32.8-13.4 37.4-26.4 4.6-13 4.6-24.1 3.2-26.4-1.3-2.5-5-3.9-10.5-6.6z"/></svg>
+      </button>
+    </div>
+
+    <div class="icon-wrapper">
+      <button class="main-icon-btn bg-call" onclick="openAgemaPopup('call-menu')"><span>📞</span></button>
+    </div>
+
+    <div class="icon-wrapper">
+      <a href="mailto:agemabenin@gmail.com" class="main-icon-btn bg-mail" style="text-decoration:none;"><span>📧</span></a>
+    </div>
+  </div>
+
+  <div id="agema-overlay" class="popup-overlay" onclick="closeAllAgemaPopups()"></div>
+
+  <div id="wa-menu" class="contact-popup">
+    <div class="popup-header">Contacter AGEMA sur WhatsApp</div>
+    
+    <a href="https://wa.me/2290196479181?text=*Bonjour%20AGEMA.*%20*J'aimerais%20avoir%20plus%20d'informations%20sur%20vos%20Manuels%20Pratiques%20et%20Formations.*" class="popup-link" target="_blank">
+      <span class="net-dot mtn"></span> WhatsApp 1
+    </a>
+    
+    <a href="https://wa.me/2290140804495?text=*Bonjour%20AGEMA.*%20*J'aimerais%20avoir%20plus%20d'informations%20sur%20vos%20Manuels%20Pratiques%20et%20Formations.*" class="popup-link" target="_blank">
+      <span class="net-dot celtiis"></span> WhatsApp 2 
+    </a>
+    
+    <a href="https://wa.me/2290195618690?text=*Bonjour%20AGEMA.*%20*J'aimerais%20avoir%20plus%20d'informations%20sur%20vos%20Manuels%20Pratiques%20et%20Formations.*" class="popup-link" target="_blank">
+      <span class="net-dot moov"></span> WhatsApp 3 
+    </a>
+    
+    <button class="close-popup" onclick="closeAllAgemaPopups()">Fermer</button>
+  </div>
+
+  <div id="call-menu" class="contact-popup">
+    <div class="popup-header">Appel Direct AGEMA</div>
+    <a href="tel:+2290196479181" class="popup-link"><span class="net-dot mtn"></span> Appeler MTN</a>
+    <a href="tel:+2290140804495" class="popup-link"><span class="net-dot celtiis"></span> Appeler CELTIIS</a>
+    <a href="tel:+2290195618690" class="popup-link"><span class="net-dot moov"></span> Appeler MOOV</a>
+    <button class="close-popup" onclick="closeAllAgemaPopups()">Fermer</button>
+  </div>
+
+  <script>
+    function openAgemaPopup(id) {
+      document.getElementById('agema-overlay').style.display = 'block';
+      document.getElementById(id).style.display = 'block';
+    }
+
+    function closeAllAgemaPopups() {
+      document.getElementById('agema-overlay').style.display = 'none';
+      document.querySelectorAll('.contact-popup').forEach(p => p.style.display = 'none');
+    }
+  </script>
+</div>
+<!-- ------------------------------------------------------ -->
+
