@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AGEMA | Notre Histoire & Succès</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-weight/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #007bff;
+            --secondary: #28a745;
+            --dark: #1e1e24;
+            --light: #f8f9fa;
+            --text: #333;
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--light);
+            color: var(--text);
+            line-height: 1.6;
+        }
+
+        header {
+            background: linear-gradient(135deg, var(--dark) 0%, #0d1b2a 100%);
+            color: #fff;
+            padding: 5rem 2rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        header h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            letter-spacing: 2px;
+            animation: fadeInDown 1s ease;
+        }
+
+        header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: -3rem auto 4rem auto;
+            padding: 0 1.5rem;
+            position: relative;
+            z-index: 10;
+        }
+
+        .card {
+            background: #fff;
+            padding: 2.5rem;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            margin-bottom: 2.5rem;
+            transition: var(--transition);
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+        }
+
+        h2 {
+            color: var(--dark);
+            margin-bottom: 1.5rem;
+            position: relative;
+            padding-bottom: 0.5rem;
+        }
+
+        h2::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 50px;
+            height: 4px;
+            background-color: var(--primary);
+            border-radius: 2px;
+        }
+
+        .grid-benefits {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+
+        .benefit-item {
+            background: #fdfdfd;
+            padding: 1.5rem;
+            border-left: 4px solid var(--secondary);
+            border-radius: 4px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.02);
+        }
+
+        .benefit-item i {
+            color: var(--secondary);
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .badge-app {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 2rem;
+            border-radius: 12px;
+            text-align: center;
+            margin-top: 2rem;
+        }
+
+        .btn {
+            display: inline-block;
+            background: #fff;
+            color: #764ba2;
+            padding: 0.8rem 2rem;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: bold;
+            margin-top: 1.5rem;
+            transition: var(--transition);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .btn:hover {
+            transform: scale(1.05);
+            background: var(--light);
+        }
+
+        .stats-container {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            margin-top: 2rem;
+            text-align: center;
+        }
+
+        .stat-box {
+            padding: 1rem;
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: var(--primary);
+            display: block;
+        }
+
+        footer {
+            text-align: center;
+            padding: 2rem;
+            background: var(--dark);
+            color: #fff;
+            font-size: 0.9rem;
+        }
+
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @media (max-width: 768px) {
+            header h1 { font-size: 2.2rem; }
+            .container { margin-top: -1.5rem; }
+            .card { padding: 1.5rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1 id="main-title">AGEMA</h1>
+        <p>Expertise en maintenance, solutions numériques innovantes et formation professionnelle.</p>
+    </header>
+
+    <div class="container">
+        
+        <!-- Section Présentation AGEMA -->
+        <section class="card">
+            <h2>À Propos de AGEMA</h2>
+            <p><strong>AGEMA</strong> est un centre d'excellence technologique spécialisé dans la maintenance informatique et mobile (GSM), le clignotement (flashing) de logiciels, l'administration réseau et la formation professionnelle pratique. Notre mission est de transformer la passion technique en compétences professionnelles solides, prêtes pour le marché de l'emploi.</p>
+            
+            <div class="stats-container">
+                <div class="stat-box">
+                    <span class="stat-number" data-target="100">0</span>
+                    <p>Techniciens Formés</p>
+                </div>
+                <div class="stat-box">
+                    <span class="stat-number" data-target="98">0</span>
+                    <p>% de Satisfaction</p>
+                </div>
+                <div class="stat-box">
+                    <span class="stat-number" data-target="200">0</span>
+                    <p>Membres SB App</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section Succès & Bénéfices -->
+        <section class="card">
+            <h2>Succès & Bénéfices</h2>
+            <p>Choisir AGEMA, c'est opter pour une expertise éprouvée et des résultats concrets :</p>
+            
+            <div class="grid-benefits">
+                <div class="benefit-item">
+                    <i class="fas fa-graduation-cap"></i>
+                    <h3>Formations Pratiques</h3>
+                    <p>Un apprentissage direct sur le terrain avec des outils de pointe et des cas réels (réparation hardware, reprogrammation de puces, etc.).</p>
+                </div>
+                <div class="benefit-item">
+                    <i class="fas fa-bolt"></i>
+                    <h3>Solutions Rapides</h3>
+                    <p>Une maîtrise parfaite des pannes complexes, du diagnostic matériel aux optimisations logicielles avancées.</p>
+                </div>
+                <div class="benefit-item">
+                    <i class="fas fa-handshake"></i>
+                    <h3>Confiance & Fiabilité</h3>
+                    <p>Un écosystème qui accompagne les étudiants et les clients vers leur propre réussite et autonomie financière.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section Zoom sur SB App -->
+        <section class="badge-app">
+            <h2>Le Pouvoir de la Communauté : SB App</h2>
+            <p>Déployée avec succès, <strong>SB App</strong> est notre application phare qui connecte notre écosystème. Plus qu'une simple plateforme, c'est un canal dynamique d'échange, de support et de gestion qui a déjà rassemblé plus de 200 utilisateurs dès son lancement !</p>
+            <a href="#" class="btn" id="explore-btn">Explorer l'Écosystème</a>
+        </section>
+
+    </div>
+
+    <footer>
+        <p>&copy; 2026 AGEMA. Tous droits réservés. Propulsé avec succès et bonheur.</p>
+    </footer>
+
+    <script>
+        // Animation des compteurs numériques
+        document.addEventListener("DOMContentLoaded", () => {
+            const counters = document.querySelectorAll('.stat-number');
+            const speed = 60; // Plus le chiffre est bas, plus c'est rapide
+
+            const startCounting = (counter) => {
+                const target = +counter.getAttribute('data-target');
+                let count = 0;
+                const increment = Math.ceil(target / speed);
+
+                const updateCount = () => {
+                    count += increment;
+                    if (count < target) {
+                        counter.innerText = count + (counter.getAttribute('data-target') === '98' ? '%' : '+');
+                        setTimeout(updateCount, 20);
+                    } else {
+                        counter.innerText = target + (counter.getAttribute('data-target') === '98' ? '%' : '+');
+                    }
+                };
+                updateCount();
+            };
+
+            // Intersection Observer pour lancer l'animation au défilement
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if(entry.isIntersecting) {
+                        startCounting(entry.target);
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.5 });
+
+            counters.forEach(counter => observer.observe(counter));
+
+            // Petit effet interactif sur le bouton
+            const btn = document.getElementById('explore-btn');
+            btn.addEventListener('click', (e) => {
+                e.preventDefault();
+                alert("Bienvenue dans l'univers AGEMA ! Préparez-vous à booster vos compétences technologiques.");
+            });
+        });
+    </script>
+</body>
+</html>
